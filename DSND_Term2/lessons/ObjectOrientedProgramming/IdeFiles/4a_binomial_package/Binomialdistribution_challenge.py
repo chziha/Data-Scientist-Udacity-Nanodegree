@@ -1,17 +1,21 @@
 # TODO: import necessary libraries
+import math
+import matplotlib.pyplot as plt
+from .Generaldistribution import Distribution
 
 # TODO: make a Binomial class that inherits from the Distribution class. Use the specifications below.
+class Binomial(Distribution):
     """ Binomial distribution class for calculating and 
     visualizing a Binomial distribution.
-    
+
     Attributes:
         mean (float) representing the mean value of the distribution
         stdev (float) representing the standard deviation of the distribution
         data_list (list of floats) a list of floats to be extracted from the data file
         p (float) representing the probability of an event occurring
+        n (int) number of trials
                 
     """
-    
     #       A binomial distribution is defined by two variables: 
     #           the probability of getting a positive outcome
     #           the number of trials
@@ -26,15 +30,17 @@
     #       
 
     # TODO: define the init function
-        
+    def __init__(self, probability=0.5, number_trials=25):     
         # TODO: store the probability of the distribution in an instance variable p
         # TODO: store the size of the distribution in an instance variable n
-        
+        self.p = probability
+        self.n = number_trials
         # TODO: Now that you know p and n, you can calculate the mean and standard deviation
         #       You can use the calculate_mean() and calculate_stdev() methods defined below along with the __init__ function from the Distribution class
-            
+        Distribution.__init__(self, self.calculate_mean(), self.calculate_stdev())
+
     # TODO: write a method calculate_mean() according to the specifications below
-    
+    def calculate_mean(self):
         """Function to calculate the mean from p and n
         
         Args: 
@@ -44,10 +50,14 @@
             float: mean of the data set
     
         """
+
+        mu = self.p * self.n
+        self.mean = mu
+        return mu
          
 
     #TODO: write a calculate_stdev() method accordin to the specifications below.
-
+    def calculate_stdev(self):
         """Function to calculate the standard deviation from p and n.
         
         Args: 
@@ -57,6 +67,10 @@
             float: standard deviation of the data set
     
         """
+
+        sigma = math.sqrt(self.n * self.p * (1 - self.p))
+        self.stdev = sigma
+        return sigma
 
     # TODO: write a replace_stats_with_data() method according to the specifications below. The read_data_file() from the Generaldistribution class can read in a data
     # file. Because the Binomaildistribution class inherits from the Generaldistribution class,
@@ -75,7 +89,7 @@
     #
     #       Hint: You can use the calculate_mean() and calculate_stdev() methods
     #           defined previously.
-
+    def replace_stats_with_data(self):
         """Function to calculate p and n from the data set. The function updates the p and n variables of the object.
         
         Args: 
@@ -86,19 +100,33 @@
             float: the n value
     
         """
+
+        self.n = len(self.data)
+        self.p = float(sum(self.data) / self.n)
+        self.mean = self.calculate_mean()
+        self.stdev =  self.calculate_stdev()
+        return self.p, self.n
     
     # TODO: write a method plot_bar() that outputs a bar chart of the data set according to the following specifications.
+    def plot_bar(self):
         """Function to output a histogram of the instance variable data using 
         matplotlib pyplot library.
-        
+      
         Args:
             None
             
         Returns:
             None
         """
+
+        plt.bar(x = [0, 1], height = [self.n * (1 - self.p), self.n * self.p])
+        plt.title('Bar plot of data')
+        plt.xlabel('data')
+        plt.ylabel('count')
+        plt.show()
     
     #TODO: Calculate the probability density function of the binomial distribution
+    def pdf(self, k):
         """Probability density function calculator for the binomial distribution.
         
         Args:
@@ -109,8 +137,10 @@
             float: probability density function output
         """
 
-    # write a method to plot the probability density function of the binomial distribution
+        return math.factorial(self.n) / math.factorial(k) / math.factorial(self.n - k) * math.pow(self.p, k) * math.pow(1 - self.p, self.n - k)
 
+    # write a method to plot the probability density function of the binomial distribution
+    def plot_pdf(self):
         """Function to plot the pdf of the binomial distribution
         
         Args:
@@ -121,7 +151,7 @@
             list: y values for the pdf plot
             
         """
-    
+
         # TODO: Use a bar chart to plot the probability density function from
         # k = 0 to k = n
         
@@ -132,9 +162,23 @@
 
         #   This method should also return the x and y values used to make the chart
         #   The x and y values should be stored in separate lists
+
+        x = []
+        y = []
+
+        for i in range(self.n + 1):
+            x.append(i)
+            y.append(self.pdf(i))
+
+        plt.bar(x, y)
+        plt.title('Bar plot of pdf')
+        plt.xlabel('k')
+        plt.ylabel('probability')
+        plt.show()
+        return x, y
                 
     # write a method to output the sum of two binomial distributions. Assume both distributions have the same p value.
-        
+    def __add__(self, other):  
         """Function to add together two Binomial distributions with equal p
         
         Args:
@@ -159,9 +203,13 @@
         
         # Hint: When adding two binomial distributions, the p value remains the same
         #   The new n value is the sum of the n values of the two distributions.
+        added_prob = self.p
+        added_n = self.n + other.n
+        added = Binomial(probability=added_prob, number_trials=added_n)
+        return added
                         
     # use the __repr__ magic method to output the characteristics of the binomial distribution object.
-    
+    def __repr__(self):
         """Function to output the characteristics of the Binomial instance
         
         Args:
@@ -178,4 +226,4 @@
         #       with the values replaced by whatever the actual distributions values are
         #       The method should return a string in the expected format
     
-        pass
+        return 'mean {}, standard deviation {}, p {}, n {}'.format(self.mean, self.stdev, self.p, self.n)
