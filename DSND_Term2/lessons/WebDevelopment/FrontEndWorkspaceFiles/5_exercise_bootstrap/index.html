@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- TODO: Change the title of the page to Data Dashboard -->
-    <title>Hello, world!</title>
+    <title>Data Dashboard</title>
   </head>
   <body>
     <!-- TODO: add a navigation bar to the top of the web page
@@ -20,6 +20,22 @@
         - align the Udacity and World Bank links to the right side of the navbar (hint: use ml-auto)
     HINT: If you get stuck, re-watch the previous video and/or use an example from the documentation on the Bootstrap website: https://getbootstrap.com/docs/4.0/components/navbar/#nav
 -->
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">World Bank Dashboard</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="False" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav ml-auto">
+          <li class="new-item">
+            <a class="nav-link" href="https://www.udacity.com/course/data-scientist-nanodegree--nd025">Udacity</a>
+          </li>
+          <li class="new-item">
+            <a class="nav-link" href="https://data.worldbank.org/">World Bank</a>
+          </li>
+        </ul>
+      </div>
+    </nav>  
 
 
     <!-- TODO: Create a div with the row class. Inside this row, there should be three columns of the following size and in the following order:
@@ -27,17 +43,56 @@
         - col-1
         - col-10
     -->
-    
+    <div class="row ml-1 mt-2">
+      <div class="col-1">
+        <a href="https://github.com/chziha">
+          <img src="./assets/githublogo.png" class="img-fluid" alt="githublogo">
+        </a>
+      </div>
+      <div class="col-1 border-right">
+        <a href="https://www.linkedin.com/in/zihao-chen-045b20b7">
+          <img src="./assets/linkedinlogo.png" class="img-fluid" alt="linkedinlogo">
+        </a>
+        <a href="https://www.instagram.com">
+          <img src="./assets/instagram.png" class="img-fluid mt-4" alt="instagramlogo">
+        </a>
+      </div>
+      <div class="col-10">
+        <h2>World Bank Data Dashboard</h2>
+        <h4 class="text-muted">Land Use Visualizations</h4>
+        <div class="container">
+          <div class="row mt-2">
+            <div class="col-4">
+              <img src="./assets/plot1.png" class="img-fluid" alt="plt1">
+            </div>
+            <div class="col-4">
+              <img src="./assets/plot2.png" class="img-fluid" alt="plt2">
+            </div>
+            <div class="col-4">
+              <img src="./assets/plot3.png" class="img-fluid" alt="plt3">
+            </div>
+          </div>
+          <div class="row mt-3 mb-2">
+            <div class="col-6">
+              <img src="./assets/plot4.png" class="img-fluid" alt="plt4">
+            </div>
+            <div class="col-6">
+              <img src="./assets/plot5.png" class="img-fluid" alt="plt5">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- TODO: In the first column, put a link to your github profile and use the github logo image in the asset folder. Make sure to use the img-fluid class in the img tags -->
     <!-- TODO: In the second column, put a link to your linkedin profile and your instagram account. Use the images in the asset folder. If you don't have these accounts, then add the links anyway and in the href attribute, put href="#". That tells the browser to do nothing when the link is clicked. Also, add a border to the right side of the column -->
     <!-- TODO: In the third column, 
      add an h2 header that says World Bank Data Dashboard and an h4 header that says Land Use Visualizations. Change the color of the h4 font using the text-muted class. Remove the Hello World Header -->
     
-    <h1>Hello, world!</h1>
+    <h1 class="ml-2 mt-3">Hello, world!</h1>
 
 <!-- TODO: In the third column underneath the h2 and h4 tags, you'll place the five visualizations plot1.png, plot2.png...plot5.png. First, wrap them in a container class. 
 
-Put the visualizations in two rows such that the first row contains plot1.png, plot2.png, and plot2.png, spaced evenly into three columns. The second row should contain plot4.png, plot5.png, evenly spaced into three columns. The final result should be:
+Put the visualizations in two rows such that the first row contains plot1.png, plot2.png, and plot3.png, spaced evenly into three columns. The second row should contain plot4.png, plot5.png, evenly spaced into three columns. The final result should be:
 plot1.png plot2.png plot3.png
 plot4.png       plot5.png -->
         
