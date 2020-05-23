@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 def load_data(messages_filepath, categories_filepath):
 	'''
 	Function to return a dataframe by merging two imported CSV files
-	with 
+	with duplicate rows removed
 
 	Args:
 		messages_filepath: a string for the path of messages CSV file
