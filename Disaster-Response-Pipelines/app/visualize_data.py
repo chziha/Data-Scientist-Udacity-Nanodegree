@@ -9,7 +9,8 @@ from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem.wordnet import WordNetLemmatizer
 
-import plotly.graph_objs as Go
+import plotly.graph_objs as go
+import pandas as pd
 
 def tokenize(text):
     '''
@@ -79,69 +80,49 @@ def return_figures(df):
         )
 
     layout_one = dict(title = 'Counts of the Top 25 Most Frequent Words',
-        xaxis = dict(title = 'Word'),
+        xaxis = dict(title = 'Word', tickangle = 45),
         yaxis = dict(title = 'Counts')
         )
-    
-    # Second figure of 
+
+    # Second figure for frequencies of messages per category
+    graph_two = []
+
+    message_per_cat = df.iloc[:, 4:].sum().sort_values(ascending = False)
+
+    graph_two.append(
+        go.Bar(
+            x = message_per_cat.index.tolist(),
+            y = message_per_cat.tolist()
+            )
+        )
+
+    layout_two = dict(title = 'Frequencies of Messages per Category',
+        xaxis = dict(title = 'Category', tickangle = 45),
+        yaxis = dict(title = 'Frequency')
+        )
+
+    # Third figure for frequencies of messages of different genres per category
+    graph_three = []
+
+    for genre in df['genre'].unique():
+        df_genre = df[df['genre'] == genre].iloc[:, 4:].sum()
+        graph_three.append(go.Bar(
+            x = df_genre.index.tolist(),
+            y = df_genre.tolist(),
+            name = genre
+            )
+        )
+
+    layout_three = dict(title = 'Frequencies of Messages of different genres per Category',
+        xaxis = dict(title = 'Category', tickangle = 45),
+        yaxis = dict(title = 'Frequency'),
+        barmode = 'stack'
+        )
+
     # Append the plotly visualizations into the list
     figures = []
     figures.append(dict(data = graph_one, layout = layout_one))
+    figures.append(dict(data = graph_two, layout = layout_two))
+    figures.append(dict(data = graph_three, layout = layout_three))
 
     return figures
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# extract data needed for visuals
-    genre_counts = df.groupby('genre').count()['message']
-    genre_names = list(genre_counts.index)
-    
-    # create visuals
-    # TODO: Below is an example - modify to create your own visuals
-    graphs = [
-        {
-            'data': [
-                Bar(
-                    x=genre_names,
-                    y=genre_counts
-                )
-            ],
-
-            'layout': {
-                'title': 'Distribution of Message Genres',
-                'yaxis': {
-                    'title': "Count"
-                },
-                'xaxis': {
-                    'title': "Genre"
-                }
-            }
-        }
-        {
-            'data': [
-                Bar(
-                    
-                )
-            ],
-
-            'layout': {
-                'title': 'xxx'
-            }
-
-        }
-    ]

@@ -14,7 +14,6 @@ import numpy as np
 from sqlalchemy import create_engine
 
 from nltk.tokenize import word_tokenize
-from nltk import pos_tag
 from nltk.corpus import stopwords
 from nltk.stem.wordnet import WordNetLemmatizer
 
@@ -28,6 +27,19 @@ from sklearn.metrics import classification_report, f1_score, make_scorer
 from sklearn.metrics import precision_score, recall_score, accuracy_score
 
 def load_data(database_filepath):
+    '''
+    Function to load cleaned data for the ML pipeline from the database
+
+    Args:
+        database_filepath: a string containing the path of the database
+
+    Returns:
+        X: a Dataframe containing the features
+        y: a Dataframe containing the labels
+        category_names: a list containing the category names
+
+    '''
+
     try:
         engine = create_engine('sqlite:///{}'.format(database_filepath))
         tab_name = database_filepath.split('/')[-1].split('.')[0]
@@ -119,13 +131,27 @@ def mean_f1_score(y_true, y_pred):
     Returns:
         f1_mean: a float for the mean f1 score
     '''
-    f1_list = [f1_score(np.array(y_true)[:, i], y_pred[:, i], average='weighted', 
-        labels = np.unique(y_pred), zero_division = 0) for i in range(y_true.shape[1])]
+    # f1_list = [f1_score(np.array(y_true)[:, i], y_pred[:, i], average='weighted', 
+    #     labels = np.unique(y_pred), zero_division = 0) for i in range(y_true.shape[1])]
+
+    f1_list = [f1_score(np.array(y_true)[:, i], y_pred[:, i], 
+        average='weighted') for i in range(y_true.shape[1])]
+
     f1_mean = sum(f1_list) / len(f1_list)
     return f1_mean
 
 
 def build_model():
+    '''
+    Function to build the model for grid search
+
+    Args:
+        None
+
+    Retuns:
+        cv: a GridSearchCV object containing the ML pipeline
+    '''
+
     pipeline = Pipeline([
         ('tfidfVect', TfidfVectorizer(tokenizer=tokenize)),
         ('RFclf', MultiOutputClassifier(RandomForestClassifier()))
@@ -149,6 +175,19 @@ def build_model():
 
 
 def evaluate_model(model, X_test, y_test, category_names):
+    '''
+    Function to print the metrics for multi-class classifications
+
+    Args:
+        model: an estimator object
+        X_test: a Dataframe containing the features in the test set
+        y_test: a Dataframe containing the labels in the test set
+        category_names: a list containing the category names
+
+    Returns:
+        None
+    '''
+
     y_pred = model.predict(X_test)
     results = report_metrics(y_test, y_pred)
     for cat in category_names:
@@ -158,6 +197,17 @@ def evaluate_model(model, X_test, y_test, category_names):
 
 
 def save_model(model, model_filepath):
+    '''
+    Function to save the fitted model
+
+    Args:
+        model: an estimator object
+        model_filepath: a string containing the path to save the model
+
+    Reuturns:
+        None
+    '''
+
     try:
         pickle.dump(model, open(model_filepath, 'wb'))
     except:
