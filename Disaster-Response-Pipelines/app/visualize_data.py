@@ -97,7 +97,7 @@ def return_figures(df):
         )
 
     layout_two = dict(title = 'Frequencies of Messages per Category',
-        xaxis = dict(title = 'Category', tickangle = 45),
+        xaxis = dict(automargin=True, title = 'Category', tickangle = 45),
         yaxis = dict(title = 'Frequency')
         )
 
@@ -114,7 +114,7 @@ def return_figures(df):
         )
 
     layout_three = dict(title = 'Frequencies of Messages of different genres per Category',
-        xaxis = dict(title = 'Category', tickangle = 45),
+        xaxis = dict(automargin=True, title = 'Category', tickangle = 45),
         yaxis = dict(title = 'Frequency'),
         barmode = 'stack'
         )

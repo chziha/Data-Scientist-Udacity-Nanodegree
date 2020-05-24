@@ -57,6 +57,9 @@ def clean_data(df):
     df.drop(['categories'], axis=1, inplace = True)
     df = pd.concat([df, cats_ind], axis=1)
     df.drop_duplicates(inplace=True)
+
+    # Change all values of 2 to 1 in related category
+    df['related'] = df['related'].apply(lambda x: 1 if x == 2 else x)
     return df
 
 
