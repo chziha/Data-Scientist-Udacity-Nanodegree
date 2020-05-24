@@ -1,5 +1,5 @@
 # Disaster Response Pipeline
-This repository is for the Project: Disaster Response Pipeline of the [Data Scientist Nanodegree by Udacity](https://www.udacity.com/course/data-scientist-nanodegree--nd025).
+This repository is for the project - Disaster Response Pipeline of the [Data Scientist Nanodegree by Udacity](https://www.udacity.com/course/data-scientist-nanodegree--nd025).
 
 ## Overview
 Keyword searching in not so efficient in classifying disaster response messages, machine learning models can help with this issue. In this project, two datasets of disaster response messages and categories are loaded, combined, cleaned, and saved to a database using the ETL pipeline. Then, a machine learning pipeline with NLP pipeline is deployed to extract the features, fit the model, evaluate the model and save the model. Finally, a web app is used to visualize the cleaned data and classify new disaster response messages based on the fitted model.
@@ -44,6 +44,3 @@ Messages can be classified by clicking `Classify Message` for 36 related categor
 Author: Zihao Chen<br/>
 The data used in this project is provided by [Figure Eight](https://appen.com/).<br/>
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-## Website
-The deployed web application can be found [here](https://medium.com/@chenzh0828/data-tells-you-how-to-choose-airbnb-in-boston-that-fits-you-best-edbb0dd64994).
