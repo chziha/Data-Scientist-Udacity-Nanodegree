@@ -1,16 +1,35 @@
 import numpy as np
 import pandas as pd
 
+
+# Read in the MovieTweetings dataset originally taken from https://github.com/sidooms/MovieTweetings/tree/master/latest
+movies = pd.read_csv('movies.dat', delimiter='::', header=None, names=['movie_id', 'movie', 'genre'], dtype={'movie_id': object}, engine='python')
+
+reviews = pd.read_csv('ratings.dat', delimiter='::', header=None, names=['user_id', 'movie_id', 'rating', 'timestamp'], dtype={'movie_id': object, 'user_id': object, 'timestamp': object}, engine='python')
+
+# Another Global variable to store the number of different genres
+genres = []
+for val in movies.genre:
+    try:
+        genres.extend(val.split('|'))
+    except AttributeError:
+        pass
+
+# update the genres 
+genres = set(genres)
+
 def q1_check(input_dict):
-    a = 53968
-    b = 10
-    c = 7
-    d = 31245
-    e = 15
-    f = 0
-    g = 4
-    h = 712337
-    i = 28
+    # We cannot have a static value of these variable. The size of the dataset keeps increasing.
+    a = reviews.user_id.nunique()
+    b = reviews.rating.max()
+    c = np.round(reviews.rating.mean(), 0)
+    d = movies.shape[0]
+    e = reviews.rating.min()
+    f = int(reviews.rating.isnull().mean()*reviews.shape[0])
+    # g = 4 # Not used within the function
+    h = reviews.shape[0]
+    i = len(genres)
+
 
     dict_sol1 = {
     'The number of movies in the dataset': d,
@@ -19,7 +38,7 @@ def q1_check(input_dict):
     'The number of unique users in the dataset': a,
     'The number missing ratings in the reviews dataset': f,
     'The average rating given across all ratings': c,
-    'The minimum rating given across all ratings': f,
+    'The minimum rating given across all ratings': e,
     'The maximum rating given across all ratings': b
     }
 
@@ -115,7 +134,7 @@ def test_recs(sol_dict):
     c = "there were too many ratings to get a stable metric"
     d = 'user based collaborative filtering'
     e = "euclidean distance and pearson's correlation coefficient"
-    f = "manhatten distance and euclidean distance"
+    f = "manhattan distance and euclidean distance"
     g = "spearman's correlation and euclidean distance"
     h = "the spread in some ratings was zero"
     i = 'content based recommendation'
@@ -220,7 +239,7 @@ def sim_6_sol(sol_dict):
 def test_recs(sol_dict):
     sol_dict1 = {
         'The type of recommendation system implemented here was a ...': 'user based collaborative filtering',
-        'The two methods used to estimate similarity were: ': "euclidean distance and pearson's correlation coefficient",
+        'The two methods used to estimate user similarity were: ': "euclidean distance and pearson's correlation coefficient",
         'There was an issue with using the correlation coefficient.  What was it?': 'the spread in some ratings was zero'
     }
     if sol_dict1 == sol_dict:
@@ -253,5 +272,3 @@ def test_recs2(sol_dict2):
         for k, v in sol_dict2.items():
             if sol_dict1[k] != sol_dict[k]:
                 print("Oops! Your answer to: {} doesn't look quite right.".format(k))
-
-          
